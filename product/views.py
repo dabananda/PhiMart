@@ -16,13 +16,9 @@ def all_products(request):
 
     if request.method == 'POST':
         products_data = ProductSerializer(data=request.data)
-
-        if products_data.is_valid():
-            products_data.save()
-            return Response(products_data.data, status=status.HTTP_201_CREATED)
-
-        else:
-            return Response(products_data.error, status=status.HTTP_400_BAD_REQUEST)
+        products_data.is_valid(raise_exception=True)
+        products_data.save()
+        return Response(products_data.data, status=status.HTTP_201_CREATED)
 
 
 @api_view()

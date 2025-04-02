@@ -21,3 +21,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def calc_tax(self, product):
         return round(product.price * Decimal(1.18), 2)
+
+    def validate_price(self, price):
+        if price < 0:
+            raise serializers.ValidationError("Price must be positive")
+        else:
+            return price
