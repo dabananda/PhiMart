@@ -5,6 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import ProductFilter
 from rest_framework.filters import SearchFilter, OrderingFilter
+from .paginations import DefaultPagination
 
 
 class ProductViewSet(ModelViewSet):
@@ -14,6 +15,7 @@ class ProductViewSet(ModelViewSet):
     filterset_class = ProductFilter
     search_fields = ['name', 'description']
     ordering_fields = ['price', 'updated_at']
+    pagination_class = DefaultPagination
 
 
 class CategoryViewSet(ModelViewSet):
