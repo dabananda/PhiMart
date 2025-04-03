@@ -1,7 +1,9 @@
 asgiref==3.8.1
 Django==5.1.7
 django-debug-toolbar==5.1.0
+django-filter==25.1
 djangorestframework==3.16.0
+drf-nested-routers==0.94.1
 pillow==11.2.0
 sqlparse==0.5.3
 tzdata==2025.2
