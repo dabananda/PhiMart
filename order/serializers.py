@@ -23,7 +23,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
-    cart_items = CartItemSerializer(many=True)
+    cart_items = CartItemSerializer(many=True, read_only=True)
     total_price = serializers.SerializerMethodField(
         method_name='get_total_price')
 
