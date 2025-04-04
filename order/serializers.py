@@ -52,6 +52,12 @@ class CartItemSerializer(serializers.ModelSerializer):
         return cart_item.quantity * cart_item.product.price
 
 
+class UpdateCartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = ['quantity']
+
+
 class CartSerializer(serializers.ModelSerializer):
     cart_items = CartItemSerializer(many=True, read_only=True)
     total_price = serializers.SerializerMethodField(
