@@ -66,10 +66,50 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ['id', 'user', 'total_price', 'cart_items']
+        read_only_fields = ['user']
 
     def get_total_price(self, cart: Cart):
         return sum(
             [item.product.price * item.quantity for item in cart.cart_items.all()])
+
+
+class CreateOrderSerializer(serializers.Serializer):
+    cart_id = serializers.UUIDField()
+
+    def validate_cart_id(self, cart_id):
+        if not Cart.objects.filter(pk=cart_id).exists():
+            raise serializers.ValidationError('No cart found with this id')
+
+        if not CartItem.objects.filter(cart_id=cart_id).exists():
+            raise serializers.ValidationError('Cart is empty')
+
+        return cart_id
+
+    def create(self, validated_data):
+        user_id = self.context['user_id']
+        cart_id = validated_data['cart_id']
+        cart = Cart.objects.get(pk=cart_id)
+        cart_items = cart.cart_items.select_related('product').all()
+        total_price = sum(
+            [item.product.price * item.quantity for item in cart_items])
+
+        order = Order.objects.create(user_id=user_id, total_price=total_price)
+        order_items = [
+            OrderItem(
+                order=order,
+                product=item.product,
+                price=item.product.price,
+                quantity=item.quantity,
+                total_price=item.product.price * item.quantity,
+            ) for item in cart_items
+        ]
+        OrderItem.objects.bulk_create(order_items)
+        cart.delete()
+
+        return order
+
+    def to_representation(self, instance):
+        return OrderSerializer(instance).data
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
