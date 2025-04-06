@@ -2,15 +2,20 @@ from .serializers import CartSerializer, CartItemSerializer, AddCartItemSerializ
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from .models import Cart, CartItem
+from rest_framework.permissions import IsAuthenticated
 
 
 class CartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, GenericViewSet):
-    queryset = Cart.objects.all()
     serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Cart.objects.filter(user=self.request.user)
 
 
 class CartItemViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete']
+
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return AddCartItemSerializer
