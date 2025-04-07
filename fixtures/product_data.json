@@ -39,7 +39,6 @@
             "description": "High-quality smartphone for everyday use.",
             "price": "213.80",
             "stock": 157,
-            "image": null,
             "category": 1,
             "created_at": "2025-02-05T02:45:04.629624",
             "updated_at": "2025-02-08T02:45:04.629624"
@@ -53,7 +52,6 @@
             "description": "High-quality laptop for everyday use.",
             "price": "46.92",
             "stock": 174,
-            "image": null,
             "category": 1,
             "created_at": "2025-02-02T15:45:04.629624",
             "updated_at": "2025-02-02T15:45:04.629624"
@@ -67,7 +65,6 @@
             "description": "High-quality wireless headphones for everyday use.",
             "price": "144.57",
             "stock": 82,
-            "image": null,
             "category": 1,
             "created_at": "2025-02-07T11:45:04.629624",
             "updated_at": "2025-02-09T11:45:04.629624"
@@ -81,7 +78,6 @@
             "description": "High-quality smartwatch for everyday use.",
             "price": "339.21",
             "stock": 74,
-            "image": null,
             "category": 1,
             "created_at": "2025-01-23T08:45:04.629624",
             "updated_at": "2025-01-28T08:45:04.629624"
@@ -95,7 +91,6 @@
             "description": "High-quality tablet for everyday use.",
             "price": "417.98",
             "stock": 49,
-            "image": null,
             "category": 1,
             "created_at": "2025-02-19T19:45:04.629624",
             "updated_at": "2025-02-23T19:45:04.629624"
@@ -109,7 +104,6 @@
             "description": "High-quality bluetooth speaker for everyday use.",
             "price": "245.54",
             "stock": 41,
-            "image": null,
             "category": 1,
             "created_at": "2025-01-26T14:45:04.629624",
             "updated_at": "2025-01-28T14:45:04.629624"
@@ -123,7 +117,6 @@
             "description": "High-quality digital camera for everyday use.",
             "price": "239.33",
             "stock": 41,
-            "image": null,
             "category": 1,
             "created_at": "2025-02-08T04:45:04.629624",
             "updated_at": "2025-02-11T04:45:04.629624"
@@ -137,7 +130,6 @@
             "description": "High-quality gaming console for everyday use.",
             "price": "109.55",
             "stock": 43,
-            "image": null,
             "category": 1,
             "created_at": "2025-02-08T08:45:04.629624",
             "updated_at": "2025-02-11T08:45:04.629624"
@@ -151,7 +143,6 @@
             "description": "High-quality monitor for everyday use.",
             "price": "477.96",
             "stock": 104,
-            "image": null,
             "category": 1,
             "created_at": "2025-02-03T13:45:04.629624",
             "updated_at": "2025-02-05T13:45:04.629624"
@@ -165,7 +156,6 @@
             "description": "High-quality external hard drive for everyday use.",
             "price": "394.69",
             "stock": 16,
-            "image": null,
             "category": 1,
             "created_at": "2025-01-25T02:45:04.629624",
             "updated_at": "2025-01-25T02:45:04.629624"
@@ -179,7 +169,6 @@
             "description": "High-quality t-shirt for everyday use.",
             "price": "37.44",
             "stock": 187,
-            "image": null,
             "category": 2,
             "created_at": "2025-01-22T14:45:04.629624",
             "updated_at": "2025-01-27T14:45:04.629624"
@@ -193,7 +182,6 @@
             "description": "High-quality jeans for everyday use.",
             "price": "292.10",
             "stock": 22,
-            "image": null,
             "category": 2,
             "created_at": "2025-01-25T17:45:04.629624",
             "updated_at": "2025-01-27T17:45:04.629624"
@@ -207,7 +195,6 @@
             "description": "High-quality sneakers for everyday use.",
             "price": "86.74",
             "stock": 160,
-            "image": null,
             "category": 2,
             "created_at": "2025-01-22T02:45:04.629624",
             "updated_at": "2025-01-23T02:45:04.629624"
@@ -221,7 +208,6 @@
             "description": "High-quality jacket for everyday use.",
             "price": "320.85",
             "stock": 153,
-            "image": null,
             "category": 2,
             "created_at": "2025-02-19T14:45:04.629624",
             "updated_at": "2025-02-22T14:45:04.629624"
@@ -235,7 +221,6 @@
             "description": "High-quality scarf for everyday use.",
             "price": "363.13",
             "stock": 180,
-            "image": null,
             "category": 2,
             "created_at": "2025-02-03T22:45:04.629624",
             "updated_at": "2025-02-08T22:45:04.629624"
@@ -249,7 +234,6 @@
             "description": "High-quality wrist watch for everyday use.",
             "price": "40.06",
             "stock": 109,
-            "image": null,
             "category": 2,
             "created_at": "2025-01-28T23:45:04.629624",
             "updated_at": "2025-02-02T23:45:04.629624"
@@ -263,7 +247,6 @@
             "description": "High-quality sunglasses for everyday use.",
             "price": "20.05",
             "stock": 109,
-            "image": null,
             "category": 2,
             "created_at": "2025-01-23T22:45:04.629624",
             "updated_at": "2025-01-27T22:45:04.629624"
@@ -277,7 +260,6 @@
             "description": "High-quality handbag for everyday use.",
             "price": "31.42",
             "stock": 119,
-            "image": null,
             "category": 2,
             "created_at": "2025-02-13T06:45:04.629624",
             "updated_at": "2025-02-17T06:45:04.629624"
@@ -291,7 +273,6 @@
             "description": "High-quality belt for everyday use.",
             "price": "254.03",
             "stock": 100,
-            "image": null,
             "category": 2,
             "created_at": "2025-02-07T06:45:04.629624",
             "updated_at": "2025-02-08T06:45:04.629624"
@@ -305,7 +286,6 @@
             "description": "High-quality sports shoes for everyday use.",
             "price": "67.97",
             "stock": 35,
-            "image": null,
             "category": 2,
             "created_at": "2025-01-31T20:45:04.629624",
             "updated_at": "2025-01-31T20:45:04.629624"
@@ -319,7 +299,6 @@
             "description": "High-quality microwave oven for everyday use.",
             "price": "76.42",
             "stock": 174,
-            "image": null,
             "category": 3,
             "created_at": "2025-02-05T11:45:04.629624",
             "updated_at": "2025-02-07T11:45:04.629624"
@@ -333,7 +312,6 @@
             "description": "High-quality refrigerator for everyday use.",
             "price": "340.05",
             "stock": 150,
-            "image": null,
             "category": 3,
             "created_at": "2025-01-27T16:45:04.629624",
             "updated_at": "2025-01-27T16:45:04.629624"
@@ -347,7 +325,6 @@
             "description": "High-quality washing machine for everyday use.",
             "price": "246.55",
             "stock": 183,
-            "image": null,
             "category": 3,
             "created_at": "2025-02-05T01:45:04.629624",
             "updated_at": "2025-02-07T01:45:04.629624"
@@ -361,7 +338,6 @@
             "description": "High-quality vacuum cleaner for everyday use.",
             "price": "236.36",
             "stock": 66,
-            "image": null,
             "category": 3,
             "created_at": "2025-01-29T03:45:04.629624",
             "updated_at": "2025-02-02T03:45:04.629624"
@@ -375,7 +351,6 @@
             "description": "High-quality air conditioner for everyday use.",
             "price": "440.88",
             "stock": 196,
-            "image": null,
             "category": 3,
             "created_at": "2025-02-21T09:45:04.629624",
             "updated_at": "2025-02-25T09:45:04.629624"
@@ -389,7 +364,6 @@
             "description": "High-quality toaster for everyday use.",
             "price": "159.30",
             "stock": 122,
-            "image": null,
             "category": 3,
             "created_at": "2025-01-29T07:45:04.629624",
             "updated_at": "2025-01-29T07:45:04.629624"
@@ -403,7 +377,6 @@
             "description": "High-quality coffee maker for everyday use.",
             "price": "145.49",
             "stock": 113,
-            "image": null,
             "category": 3,
             "created_at": "2025-02-03T12:45:04.629624",
             "updated_at": "2025-02-06T12:45:04.629624"
@@ -417,7 +390,6 @@
             "description": "High-quality blender for everyday use.",
             "price": "97.47",
             "stock": 71,
-            "image": null,
             "category": 3,
             "created_at": "2025-02-18T02:45:04.629624",
             "updated_at": "2025-02-19T02:45:04.629624"
@@ -431,7 +403,6 @@
             "description": "High-quality water heater for everyday use.",
             "price": "341.24",
             "stock": 25,
-            "image": null,
             "category": 3,
             "created_at": "2025-02-15T22:45:04.629624",
             "updated_at": "2025-02-17T22:45:04.629624"
@@ -445,7 +416,6 @@
             "description": "High-quality dishwasher for everyday use.",
             "price": "158.97",
             "stock": 128,
-            "image": null,
             "category": 3,
             "created_at": "2025-01-27T07:45:04.629624",
             "updated_at": "2025-01-29T07:45:04.629624"
@@ -459,7 +429,6 @@
             "description": "High-quality fiction novel for everyday use.",
             "price": "180.90",
             "stock": 113,
-            "image": null,
             "category": 4,
             "created_at": "2025-01-24T20:45:04.629624",
             "updated_at": "2025-01-28T20:45:04.629624"
@@ -473,7 +442,6 @@
             "description": "High-quality science textbook for everyday use.",
             "price": "159.09",
             "stock": 150,
-            "image": null,
             "category": 4,
             "created_at": "2025-02-21T17:45:04.629624",
             "updated_at": "2025-02-26T17:45:04.629624"
@@ -487,7 +455,6 @@
             "description": "High-quality history book for everyday use.",
             "price": "453.72",
             "stock": 53,
-            "image": null,
             "category": 4,
             "created_at": "2025-01-31T15:45:04.629624",
             "updated_at": "2025-02-01T15:45:04.629624"
@@ -501,7 +468,6 @@
             "description": "High-quality biography for everyday use.",
             "price": "279.83",
             "stock": 146,
-            "image": null,
             "category": 4,
             "created_at": "2025-02-18T19:45:04.629624",
             "updated_at": "2025-02-22T19:45:04.629624"
@@ -515,7 +481,6 @@
             "description": "High-quality self-help book for everyday use.",
             "price": "61.95",
             "stock": 161,
-            "image": null,
             "category": 4,
             "created_at": "2025-02-05T06:45:04.629624",
             "updated_at": "2025-02-07T06:45:04.629624"
@@ -529,7 +494,6 @@
             "description": "High-quality cookbook for everyday use.",
             "price": "240.40",
             "stock": 174,
-            "image": null,
             "category": 4,
             "created_at": "2025-01-27T17:45:04.629624",
             "updated_at": "2025-01-28T17:45:04.629624"
@@ -543,7 +507,6 @@
             "description": "High-quality children's storybook for everyday use.",
             "price": "55.56",
             "stock": 141,
-            "image": null,
             "category": 4,
             "created_at": "2025-02-01T14:45:04.629624",
             "updated_at": "2025-02-02T14:45:04.629624"
@@ -557,7 +520,6 @@
             "description": "High-quality travel guide for everyday use.",
             "price": "161.14",
             "stock": 78,
-            "image": null,
             "category": 4,
             "created_at": "2025-02-14T02:45:04.629624",
             "updated_at": "2025-02-17T02:45:04.629624"
@@ -571,7 +533,6 @@
             "description": "High-quality mystery novel for everyday use.",
             "price": "304.49",
             "stock": 134,
-            "image": null,
             "category": 4,
             "created_at": "2025-02-01T02:45:04.629624",
             "updated_at": "2025-02-02T02:45:04.629624"
@@ -585,7 +546,6 @@
             "description": "High-quality fantasy novel for everyday use.",
             "price": "347.72",
             "stock": 101,
-            "image": null,
             "category": 4,
             "created_at": "2025-02-16T12:45:04.629624",
             "updated_at": "2025-02-21T12:45:04.629624"
