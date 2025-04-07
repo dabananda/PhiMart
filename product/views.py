@@ -11,7 +11,6 @@ from .permissions import IsReviewAuthorOrReadOnly
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
@@ -19,6 +18,9 @@ class ProductViewSet(ModelViewSet):
     ordering_fields = ['price', 'updated_at']
     pagination_class = DefaultPagination
     permission_classes = [IsAdminOrReadOnly]
+
+    def get_queryset(self):
+        return Product.objects.prefetch_related('images').all()
 
 
 class CategoryViewSet(ModelViewSet):
@@ -52,6 +54,6 @@ class ProductImageViewSet(ModelViewSet):
 
     def get_queryset(self):
         return ProductImage.objects.filter(product_id=self.kwargs['product_pk'])
-    
+
     def perform_create(self, serializer):
         serializer.save(product_id=self.kwargs['product_pk'])
