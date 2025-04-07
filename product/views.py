@@ -1,5 +1,5 @@
-from .models import Product, Category, Review
-from .serializers import ProductSerializer, CategorySerializer, ReviewSerializer
+from .models import Product, Category, Review, ProductImage
+from .serializers import ProductSerializer, CategorySerializer, ReviewSerializer, ProductImageSerializer
 from django.db.models import Count
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
@@ -44,3 +44,13 @@ class ReviewViewSet(ModelViewSet):
 
     def get_queryset(self):
         return Review.objects.filter(product_id=self.kwargs['product_pk'])
+
+
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id=self.kwargs['product_pk'])
+    
+    def perform_create(self, serializer):
+        serializer.save(product_id=self.kwargs['product_pk'])
