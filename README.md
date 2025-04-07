@@ -1,337 +1,107 @@
-# Django Project Setup Guide
+# PhiMart
 
-This guide provides step-by-step instructions for setting up and running a Django project with Tailwind CSS v4 and PostgreSQL on your machine.
+PhiMart is an e-commerce API built with Django REST Framework (DRF). It provides a robust backend system for building e-commerce applications with comprehensive features including user authentication, product management, cart functionality, order processing, and more.
 
 ## Table of Contents
-- [Creating a New Django Project](#creating-a-new-django-project)
-- [Database Configuration](#database-configuration)
-- [Static Files Configuration](#static-files-configuration)
-- [File Uploads (Images)](#file-uploads-images)
-- [Installing Tailwind CSS v4](#installing-tailwind-css-v4)
-- [Database Migration Commands](#database-migration-commands)
-- [Cloning an Existing Project](#cloning-an-existing-project)
-- [Common Issues and Solutions](#common-issues-and-solutions)
-- [Additional Commands](#additional-commands)
-- [Generating Requirements File](#generating-requirements-file)
 
-## Creating a New Django Project
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [API Endpoints](#api-endpoints)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Development](#development)
+- [Authentication](#authentication)
+- [Database Schema](#database-schema)
+- [Contributing](#contributing)
+- [License](#license)
 
-1. Create a virtual environment:
-   ```bash
-   python -m venv <env_name>
-   ```
+## Features
 
-2. Activate the virtual environment:
-   - Windows:
-     ```bash
-     <env_name>\Scripts\activate
-     ```
-   - macOS/Linux:
-     ```bash
-     source <env_name>/bin/activate
-     ```
+- **User Authentication**: Secure JWT-based authentication system
+- **Product Management**: Complete CRUD operations for products
+- **Categories**: Organized product categorization
+- **Shopping Cart**: User-specific cart management
+- **Order Processing**: Create and manage orders
+- **Checkout System**: Streamlined checkout process
+- **User Profiles**: User information management
+- **Reviews & Ratings**: Product review system
+- **Search Functionality**: Advanced product search
 
-3. Install Django and required packages:
-   ```bash
-   pip install Django
-   ```
+## Tech Stack
 
-4. Create a new Django project:
-   ```bash
-   django-admin startproject <project_name> .
-   ```
-   Note: The dot (.) at the end creates the project in the current directory.
+- **Backend**: Django, Django REST Framework
+- **Database**: PostgreSQL
+- **Authentication**: JWT (JSON Web Tokens)
+- **Documentation**: Swagger/OpenAPI
 
-5. Create a new Django app:
-	 ```bash
-   django-admin startapp <app_name>
-   ```
+## API Endpoints
 
-6. Add your app to the project settings:
-   Open `<project_name>/settings.py` and add your app to `INSTALLED_APPS`:
-   ```python
-   INSTALLED_APPS = [
-       'django.contrib.admin',
-       'django.contrib.auth',
-       # ... other default apps
-       '<app_name>',  # Add your app here
-   ]
-   ```
+### Authentication
+- `POST /api/auth/register/`: Register a new user
+- `POST /api/auth/login/`: Login and receive JWT tokens
+- `POST /api/auth/refresh/`: Refresh JWT token
+- `POST /api/auth/logout/`: Logout and invalidate token
 
-## Database Configuration
-1. Open the terminal and run the command (make sure virtual environment is activated)
-	```bash
-	pip install psycopg2-binary
-   ```
-2. Configure PostgreSQL in your Django project:
-   Open `<project_name>/settings.py` and replace the default database settings with:
+### Users
+- `GET /api/users/me/`: Get current user profile
+- `PUT /api/users/me/`: Update user profile
+- `GET /api/users/{id}/`: Get specific user details (admin only)
 
-   ```python
-   # Database: PostgreSQL
-   DATABASES = {
-       'default': {
-           'ENGINE': 'django.db.backends.postgresql',
-           'NAME': '<database_name>',
-           'USER': 'postgres',
-           'PASSWORD': '<database_password>',
-           'HOST': 'localhost',
-           'PORT': '5432'
-       }
-   }
-   ```
+### Products
+- `GET /api/products/`: List all products with pagination
+- `POST /api/products/`: Create new product (admin only)
+- `GET /api/products/{id}/`: Get product details
+- `PUT /api/products/{id}/`: Update product (admin only)
+- `DELETE /api/products/{id}/`: Delete product (admin only)
+- `GET /api/products/featured/`: Get featured products
 
-3. For better security, consider using environment variables with python-decouple.
-	```bash
-   pip install python-decouple
-   ```
-   
-   Create a `.env` file in your project root:
-   ```
-   DB_NAME=<database_name>
-   DB_USER=postgres
-   DB_PASSWORD=<database_password>
-   DB_HOST=localhost
-   DB_PORT=5432
-   ```
+### Categories
+- `GET /api/categories/`: List all categories
+- `POST /api/categories/`: Create new category (admin only)
+- `GET /api/categories/{id}/`: Get category details
+- `PUT /api/categories/{id}/`: Update category (admin only)
+- `DELETE /api/categories/{id}/`: Delete category (admin only)
+- `GET /api/categories/{id}/products/`: Get products in a category
 
-   Then update your settings.py:
-   ```python
-   from decouple import config
+### Cart
+- `GET /api/cart/`: Get user's cart
+- `POST /api/cart/items/`: Add item to cart
+- `PUT /api/cart/items/{id}/`: Update cart item
+- `DELETE /api/cart/items/{id}/`: Remove item from cart
+- `DELETE /api/cart/clear/`: Clear entire cart
 
-   DATABASES = {
-       'default': {
-           'ENGINE': 'django.db.backends.postgresql',
-           'NAME': config('DB_NAME'),
-           'USER': config('DB_USER'),
-           'PASSWORD': config('DB_PASSWORD'),
-           'HOST': config('DB_HOST'),
-           'PORT': config('DB_PORT'),
-       }
-   }
-   ```
+### Orders
+- `GET /api/orders/`: List user's orders
+- `POST /api/orders/`: Create a new order
+- `GET /api/orders/{id}/`: Get order details
+- `PUT /api/orders/{id}/`: Update order status (admin only)
 
-## Static Files Configuration
+### Reviews
+- `GET /api/products/{id}/reviews/`: Get product reviews
+- `POST /api/products/{id}/reviews/`: Add a review
+- `PUT /api/reviews/{id}/`: Update user's review
+- `DELETE /api/reviews/{id}/`: Delete user's review
 
-1. Configure static files in `settings.py`:
-   ```python
-   # Static files (CSS, JavaScript, Images)
-   STATIC_URL = '/static/'
-   STATICFILES_DIRS = [
-       BASE_DIR / "static",
-   ]
-   STATIC_ROOT = BASE_DIR / "staticfiles"
-   ```
+## Installation
 
-2. Create the static directory structure:
-   ```bash
-   mkdir -p static/{css,js,images}
-   ```
+### Prerequisites
+- Python 3.8+
+- PostgreSQL
+- pip
 
-3. Add static files to your templates:
-   ```html
-   {% load static %}
-   
-   <!-- CSS -->
-   <link rel="stylesheet" href="{% static 'css/output.css' %}">
-   
-   <!-- JavaScript -->
-   <script src="{% static 'js/main.js' %}"></script>
-   
-   <!-- Images -->
-   <img src="{% static 'images/logo.png' %}" alt="Logo">
-   ```
-
-4. Collect static files for production:
-   ```bash
-   python manage.py collectstatic
-   ```
-
-## File Uploads (Images)
-
-1. Configure media files in `settings.py`:
-   ```python
-   # Media files (User uploads)
-   MEDIA_URL = '/media/'
-   MEDIA_ROOT = BASE_DIR / 'media'
-   ```
-
-2. Update your project's `urls.py` to serve media files during development:
-   ```python
-   from django.conf import settings
-   from django.conf.urls.static import static
-   from django.contrib import admin
-   from django.urls import path, include
-
-   urlpatterns = [
-       path('admin/', admin.site.urls),
-       path('', include('app_name.urls')),
-       # ... other URL patterns
-   ]
-
-   urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-   ```
-
-3. Create a model with an image field:
-   ```python
-   from django.db import models
-
-   class Profile(models.Model):
-       name = models.CharField(max_length=100)
-       avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
-       
-       def __str__(self):
-           return self.name
-   ```
-
-4. Install Pillow for image processing:
-   ```bash
-   pip install Pillow
-   ```
-
-5. Create and apply migrations:
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
-
-6. Create a form with file upload capability:
-   ```python
-   # forms.py
-   from django import forms
-   from .models import Profile
-
-   class ProfileForm(forms.ModelForm):
-       class Meta:
-           model = Profile
-           fields = ['name', 'avatar']
-   ```
-
-7. Display and handle file uploads in a view:
-   ```python
-   # views.py
-   from django.shortcuts import render, redirect
-   from .forms import ProfileForm
-   from .models import Profile
-
-   def profile_create(request):
-       if request.method == 'POST':
-           form = ProfileForm(request.POST, request.FILES)
-           if form.is_valid():
-               form.save()
-               return redirect('profile_list')
-       else:
-           form = ProfileForm()
-       return render(request, 'app_name/profile_form.html', {'form': form})
-   ```
-
-8. Create a template with a file upload form:
-   ```html
-   {% extends "base.html" %}
-   
-   {% block content %}
-   <div class="container mx-auto">
-       <h1>Create Profile</h1>
-       <form method="post" enctype="multipart/form-data">
-           {% csrf_token %}
-           {{ form.as_p }}
-           <button type="submit">Save</button>
-       </form>
-   </div>
-   {% endblock %}
-   ```
-
-9. Display uploaded images:
-   ```html
-   <img src="{{ profile.avatar.url }}" alt="{{ profile.name }}">
-   ```
-
-## Installing Tailwind CSS v4
-
-1. Install Tailwind CSS and required packages:
-   ```bash
-   npm install tailwindcss @tailwindcss/postcss postcss
-   ```
-
-2. Create a PostCSS configuration file in the root directory:
-   ```bash
-   # Create file: postcss.config.mjs
-   ```
-
-3. Add the following code to `postcss.config.mjs`:
-   ```javascript
-   export default {
-     plugins: {
-       "@tailwindcss/postcss": {},
-     }
-   }
-   ```
-
-4. Create or update the CSS input file:
-   ```bash
-   # Create directory if it doesn't exist
-   mkdir -p static/css
-   # Create file: static/css/input.css
-   ```
-
-5. Add the following code to `static/css/input.css`:
-   ```css
-   @import "tailwindcss";
-   ```
-
-6. Add the following scripts to your `package.json` file (create it if it doesn't exist):
-   ```json
-   {
-     "scripts": {
-       "build:tailwind": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --minify",
-       "watch:tailwind": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/css/output.css --watch"
-     }
-   }
-   ```
-
-7. Include the compiled CSS in your HTML templates:
-   ```html
-   {% load static %}
-   <link rel="stylesheet" href="{% static 'css/output.css' %}">
-   ```
-   Note: Add `{% load static %}` at the top of your HTML file.
-
-8. Run Tailwind in watch mode during development:
-   ```bash
-   npm run watch:tailwind
-   ```
-
-## Database Migration Commands
-
-After making changes to your models, run these commands:
-
-1. Create migration files:
-   ```bash
-   python manage.py makemigrations
-   ```
-
-2. Apply migrations to the database:
-   ```bash
-   python manage.py migrate
-   ```
-
-## Cloning an Existing Project
+### Setup
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/repository-name.git
-   cd repository-name
+   git clone https://github.com/dabananda/PhiMart.git
+   cd PhiMart
    ```
 
-2. Set up a virtual environment:
+2. Create and activate a virtual environment:
    ```bash
-   # Create a virtual environment
-   python -m venv venv
-
-   # Activate the virtual environment (Windows)
-   venv\Scripts\activate
-   
-   # Activate the virtual environment (macOS/Linux)
-   source venv/bin/activate
+   python -m venv .venv
+   .venv\Scripts\activate # On Windows
+   # On Linux: source .venv/bin/activate
    ```
 
 3. Install dependencies:
@@ -339,136 +109,94 @@ After making changes to your models, run these commands:
    pip install -r requirements.txt
    ```
 
-4. Configure environment variables (if needed):
-   ```bash
-   # Copy the example environment file
-   copy .env.example .env  # Windows
-   # cp .env.example .env  # macOS/Linux
+4. Set up environment variables (see [Environment Variables](#environment-variables) section)
 
-   # Edit the environment file with your settings
+5. Run migrations:
+   ```bash
+   python manage.py migrate
    ```
 
-5. Set up the database:
+6. Create a superuser:
    ```bash
-   # Run migrations
-   python manage.py migrate
-
-   # Create a superuser for the admin panel
    python manage.py createsuperuser
    ```
 
-6. Run the development server:
+7. Run the development server:
    ```bash
    python manage.py runserver
    ```
 
-   The site should now be available at http://127.0.0.1:8000/
+## Environment Variables
 
-7. Accessing the admin panel:
-   
-   After creating a superuser, you can access the admin panel at:
-   http://127.0.0.1:8000/admin/
+Create a `.env` file in the root directory with the following variables:
 
-## Common Issues and Solutions
-
-### Package Installation Problems
-
-If you encounter issues installing packages:
-
-```bash
-# Try installing packages one by one
-pip install django
-pip install psycopg2-binary
-pip install python-decouple
-pip install [package_name]
+```
+DEBUG=True
+SECRET_KEY=your_secret_key
+DATABASE_URL=postgres://user:password@localhost:5432/phimart
+ALLOWED_HOSTS=localhost,127.0.0.1
+JWT_SECRET_KEY=your_jwt_secret
 ```
 
-### Database Connection Issues
+## Development
 
-If using PostgreSQL or MySQL, ensure:
-- The database service is running
-- PostgreSQL is properly installed on your system
-- Your connection settings in settings.py or .env file are correct
-- The specified database exists (you may need to create it first)
-
+### Running Tests
 ```bash
-# Example for creating a PostgreSQL database
-# Connect to PostgreSQL
-psql -U postgres
-
-# Create the database
-CREATE DATABASE django_todo_db;
-
-# Exit
-\q
-```
-
-### Missing Static Files
-
-If static files aren't loading properly:
-
-```bash
-# Collect static files
-python manage.py collectstatic
-```
-
-### File Upload Issues
-
-If you're having issues with file uploads:
-
-1. Check MEDIA_ROOT and MEDIA_URL settings
-2. Ensure the form has `enctype="multipart/form-data"`
-3. Verify that Pillow is installed (`pip install Pillow`)
-4. Ensure the upload directory exists and is writable
-5. Check file size limits in your Django settings:
-
-```python
-# Add to settings.py to increase upload limit
-DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
-```
-
-## Additional Commands
-
-```bash
-# Run tests
 python manage.py test
-
-# Create a new Django app
-python manage.py startapp [app_name]
-
-# Generate requirements.txt file
-pip freeze > requirements.txt
-
-# Install dependencies:
-pip install -r requirements.txt
 ```
 
-## Generating Requirements File
-
-To create a requirements.txt file that lists all the Python packages installed in your virtual environment:
-
+### Code Style
+We use Black and isort for code formatting:
 ```bash
-# Make sure your virtual environment is activated, then run:
-pip freeze > requirements.txt
+black .
+isort .
 ```
 
-This file is essential when sharing your project with others or deploying it to a production server. It allows others to install the exact same package versions you used.
+### API Documentation
+API documentation is available at `/api/docs/` when the server is running.
 
-Be sure to include the following essential packages in your requirements.txt:
-```
-Django==4.2.x  # Or your current version
-psycopg2-binary==2.9.x  # For PostgreSQL support
-python-decouple==3.8  # For environment variables
-Pillow==10.x.x  # For image processing
-```
+## Authentication
 
-## Deactivating the Virtual Environment
+PhiMart uses JWT (JSON Web Tokens) for authentication:
 
-When you're done working on the project:
+1. Register a new user at `/api/auth/register/`
+2. Login at `/api/auth/login/` to receive access and refresh tokens
+3. Include the access token in the Authorization header for authenticated requests:
+   ```
+   Authorization: Bearer <your_access_token>
+   ```
+4. When the access token expires, use the refresh token at `/api/auth/refresh/` to get a new one
 
-```bash
-deactivate
-```
+## Database Schema
+
+The project includes the following main models:
+
+- **User**: Extended Django User model with additional fields
+- **Product**: Core product information including name, description, price
+- **Category**: Product categorization
+- **Cart** and **CartItem**: Shopping cart functionality
+- **Order** and **OrderItem**: Order management
+- **Review**: Product reviews and ratings
+
+## Contributing
+
+We welcome contributions to PhiMart! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Commit your changes: `git commit -m 'Add some feature'`
+4. Push to the branch: `git push origin feature/your-feature-name`
+5. Open a Pull Request
+
+Please make sure your code follows our coding standards and includes appropriate tests.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+Developed by [Dabananda Mitra](https://github.com/dabananda)
 
 ---
 
