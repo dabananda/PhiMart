@@ -1,7 +1,7 @@
-from .serializers import CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, OrderSerializer, CreateOrderSerializer
+from .serializers import CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, OrderSerializer, CreateOrderSerializer, OrderUpdateSerializer
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .models import Cart, CartItem
 from .models import Order, OrderItem
 
@@ -35,15 +35,22 @@ class CartItemViewSet(ModelViewSet):
 
 
 class OrderViewSet(ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+
+    def get_permissions(self):
+        if self.request.method == 'DELETE':
+            return [IsAdminUser()]
+        return [IsAuthenticated()]
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreateOrderSerializer
+        if self.request.method == 'PATCH':
+            return OrderUpdateSerializer
         return OrderSerializer
 
     def get_serializer_context(self):
-        return {'user_id': self.request.user.id}
+        return {'user_id': self.request.user.id, 'user': self.request.user}
 
     def get_queryset(self):
         if self.request.user.is_staff:
