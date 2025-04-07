@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -193,3 +194,18 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+
+
+# Cloudinary Storage Configuration
+
+cloudinary.config(
+    cloud_name=config('cloud_name'),
+    api_key=config('api_key'),
+    api_secret=config('api_secret'),
+    secure=True
+)
+
+
+# Cloudinary Media Storage Configuration
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
