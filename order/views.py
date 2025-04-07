@@ -39,24 +39,46 @@ class CartItemViewSet(ModelViewSet):
 
 class OrderViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+    permission_classes = [IsAuthenticated]
 
-    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=['post'])
     def cancel(self, request, pk=None):
         order = self.get_object()
         OrderService.cancel_order(order=order, user=request.user)
         return Response({'status': "Order canceled"})
 
+    # @action(detail=True, methods=['patch'])
+    # def update_status(self, request, pk=None):
+    #     order = self.get_object()
+    #     serializer = UpdateCartItemSerializer(
+    #         order, data=request.data, partial=True)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #     return Response({'status': f'Order status updated to {request.data['status']}'})
+
+    @action(detail=True, methods=['patch'])
+    def update_status(self, request, pk=None):
+        order = self.get_object()
+        serializer = OrderUpdateSerializer(
+            order, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'status': f'Order status updated to {request.data["status"]}'
+            })
+        return Response(serializer.errors, status=400)
+
     def get_permissions(self):
-        if self.request.method == 'DELETE':
+        if self.action in ['update_status', 'destroy']:
             return [IsAdminUser()]
         return [IsAuthenticated()]
 
     def get_serializer_class(self):
         if self.action == 'cancel':
             return EmptySerializer
-        if self.request.method == 'POST':
+        if self.action == 'create':
             return CreateOrderSerializer
-        if self.request.method == 'PATCH':
+        if self.action == 'update_status':
             return OrderUpdateSerializer
         return OrderSerializer
 
