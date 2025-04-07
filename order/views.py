@@ -1,9 +1,12 @@
-from .serializers import CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, OrderSerializer, CreateOrderSerializer, OrderUpdateSerializer
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from .models import Cart, CartItem
 from .models import Order, OrderItem
+from .services import OrderService
+from .serializers import CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, OrderSerializer, CreateOrderSerializer, OrderUpdateSerializer, EmptySerializer
 
 
 class CartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, GenericViewSet):
@@ -37,12 +40,20 @@ class CartItemViewSet(ModelViewSet):
 class OrderViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
 
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def cancel(self, request, pk=None):
+        order = self.get_object()
+        OrderService.cancel_order(order=order, user=request.user)
+        return Response({'status': "Order canceled"})
+
     def get_permissions(self):
         if self.request.method == 'DELETE':
             return [IsAdminUser()]
         return [IsAuthenticated()]
 
     def get_serializer_class(self):
+        if self.action == 'cancel':
+            return EmptySerializer
         if self.request.method == 'POST':
             return CreateOrderSerializer
         if self.request.method == 'PATCH':
