@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
 
 import os
 
-from django.core.wsgi import get_wsgi_app
+from django.core.wsgi import get_wsgi_application as get_wsgi_app
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'phi_mart.settings')
 
