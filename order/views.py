@@ -1,13 +1,12 @@
-from django.shortcuts import render
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
-from order import serializers as orderSz
-from order.serializers import CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer
-from order.models import Cart, CartItem, Order, OrderItem
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.decorators import action
-from order.services import OrderService
 from rest_framework.response import Response
+from .models import Cart, CartItem
+from .models import Order, OrderItem
+from .services import OrderService
+from .serializers import CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, OrderSerializer, CreateOrderSerializer, OrderUpdateSerializer, EmptySerializer
 
 
 class CartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, GenericViewSet):
@@ -18,9 +17,7 @@ class CartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, Gener
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        if getattr(self, 'swagger_fake_view', False):
-            return Cart.objects.none()
-        return Cart.objects.prefetch_related('items__product').filter(user=self.request.user)
+        return Cart.objects.prefetch_related('cart_items__product').filter(user=self.request.user)
 
 
 class CartItemViewSet(ModelViewSet):
@@ -34,33 +31,42 @@ class CartItemViewSet(ModelViewSet):
         return CartItemSerializer
 
     def get_serializer_context(self):
-        context = super().get_serializer_context()
-        if getattr(self, 'swagger_fake_view', False):
-            return context
-
-        return {'cart_id': self.kwargs.get('cart_pk')}
+        return {'cart_id': self.kwargs['cart_pk']}
 
     def get_queryset(self):
-        return CartItem.objects.select_related('product').filter(cart_id=self.kwargs.get('cart_pk'))
+        return CartItem.objects.select_related('product').filter(cart_id=self.kwargs['cart_pk'])
 
 
-class OrderViewset(ModelViewSet):
-    http_method_names = ['get', 'post', 'delete', 'patch', 'head', 'options']
+class OrderViewSet(ModelViewSet):
+    http_method_names = ['get', 'post', 'patch', 'delete', 'head', 'options']
+    permission_classes = [IsAuthenticated]
 
     @action(detail=True, methods=['post'])
     def cancel(self, request, pk=None):
         order = self.get_object()
         OrderService.cancel_order(order=order, user=request.user)
-        return Response({'status': 'Order canceled'})
+        return Response({'status': "Order canceled"})
+
+    # @action(detail=True, methods=['patch'])
+    # def update_status(self, request, pk=None):
+    #     order = self.get_object()
+    #     serializer = UpdateCartItemSerializer(
+    #         order, data=request.data, partial=True)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #     return Response({'status': f'Order status updated to {request.data['status']}'})
 
     @action(detail=True, methods=['patch'])
     def update_status(self, request, pk=None):
         order = self.get_object()
-        serializer = orderSz.UpdateOrderSerializer(
+        serializer = OrderUpdateSerializer(
             order, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({'status': f'Order status updated to {request.data['status']}'})
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'status': f'Order status updated to {request.data["status"]}'
+            })
+        return Response(serializer.errors, status=400)
 
     def get_permissions(self):
         if self.action in ['update_status', 'destroy']:
@@ -69,21 +75,17 @@ class OrderViewset(ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'cancel':
-            return orderSz.EmptySerializer
+            return EmptySerializer
         if self.action == 'create':
-            return orderSz.CreateOrderSerializer
-        elif self.action == 'update_status':
-            return orderSz.UpdateOrderSerializer
-        return orderSz.OrderSerializer
+            return CreateOrderSerializer
+        if self.action == 'update_status':
+            return OrderUpdateSerializer
+        return OrderSerializer
 
     def get_serializer_context(self):
-        if getattr(self, 'swagger_fake_view', False):
-            return super().get_serializer_context()
         return {'user_id': self.request.user.id, 'user': self.request.user}
 
     def get_queryset(self):
-        if getattr(self, 'swagger_fake_view', False):
-            return Order.objects.none()
         if self.request.user.is_staff:
             return Order.objects.prefetch_related('items__product').all()
         return Order.objects.prefetch_related('items__product').filter(user=self.request.user)
