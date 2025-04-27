@@ -3,13 +3,12 @@ from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer,
 
 class UserCreateSerializer(BaseUserCreateSerializer):
     class Meta(BaseUserCreateSerializer.Meta):
-        fields = ['id', 'first_name', 'last_name',
-                  'email', 'phone_number', 'password', 'address']
+        fields = ['id', 'email', 'password', 'first_name',
+                  'last_name', 'address', 'phone_number']
 
 
 class UserSerializer(BaseUserSerializer):
     class Meta(BaseUserSerializer.Meta):
-        ref_name = "CustomUser"
-        fields = ['id', 'first_name', 'last_name',
-                  'email', 'phone_number', 'address', 'is_staff']
-        read_only_fields = ['is_staff']
+        ref_name = 'CustomUser'
+        fields = ['id', 'email', 'first_name',
+                  'last_name', 'address', 'phone_number']
