@@ -19,6 +19,15 @@ class CartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, Gener
     def get_queryset(self):
         return Cart.objects.prefetch_related('cart_items__product').filter(user=self.request.user)
 
+    def create(self, request, *args, **kwargs):
+        existing_cart = Order.objects.filter(user=request.user).first()
+
+        if existing_cart:
+            serializer = self.get_serializer(existing_cart)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return super().create(request, *args, **kwargs)
+
 
 class CartItemViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete']
